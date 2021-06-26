@@ -1,8 +1,13 @@
-# ES Reduxed
+# ES Reduxed[![npm monthly downloads](https://img.shields.io/npm/dm/es-reduxed.svg?style=flat-square)](https://www.npmjs.com/package/es-reduxed) [![current version](https://img.shields.io/npm/v/es-reduxed.svg?style=flat-square)](https://www.npmjs.com/package/es-reduxed) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 
 ES Reduxed offers an easy way to build an event-sourced backend using the redux pattern most javascript developers are familiar with!
 
 Comes with a Postgres backed event store, with more event store providers coming.
+
+## Installation
+
+Run `npm i es-reduxed` to save to your dev dependencies.
 
 ## Usage
 
