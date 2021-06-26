@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../src/postgres/index.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,SAAS,EAAE,kBAAkB,EAAE,MAAM,KAAK,CAAC;AACpD,OAAO,EAAE,UAAU,EAAE,MAAM,IAAI,CAAC;AAEhC,aAAK,KAAK,GAAG;IACX,WAAW,EAAE,MAAM,CAAC;IACpB,UAAU,EAAE,UAAU,CAAC;CACxB,CAAA;AAED,eAAO,MAAM,+BAA+B,qDAAsD,KAAK,0BAuBtG,CAAC"}

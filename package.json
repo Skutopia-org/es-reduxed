@@ -1,10 +1,10 @@
 {
-  "name": "__ADD NAME HERE__",
+  "name": "es-reduxed",
   "version": "0.1.0",
-  "description": "__ADD DESCRIPTION HERE__",
+  "description": "Server side event sourcing powered by Redux",
   "repository": {
     "type": "git",
-    "url": "__ADD GIT REPO HERE__"
+    "url": "https://github.com/Antman261/es-reduxed"
   },
   "main": "lib/index",
   "types": "lib/index",
@@ -40,19 +40,27 @@
     ],
     "require": "ts-node/register"
   },
-  "author": "__YOUR NAME__ <__YOUR EMAIL ADDRESS__> (__YOUR WEBSITE__)",
+  "author": "Anthony Manning-Franklin <anthony.manning.franklin@gmail.com> (antman-does-software.com)",
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.18",
     "@types/mocha": "^8.2.2",
+    "@types/node": "^15.12.4",
     "chai": "^4.3.4",
     "eslint": "^7.25.0",
     "lint-staged": "^10.5.4",
     "mocha": "^8.4.0",
+    "pg": "^8.6.0",
     "prettier": "^2.2.1",
+    "tiny-fixtures": "^0.2.4",
     "ts-node": "^9.1.1",
     "typedoc": "^0.20.36",
     "typedoc-plugin-markdown": "^3.8.1",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@types/pg": "^8.6.0",
+    "pg-listen": "^1.7.0",
+    "redux": "^4.1.0"
   }
 }
