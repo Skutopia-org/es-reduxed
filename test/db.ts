@@ -1,4 +1,4 @@
-import { PoolConfig } from 'pg';
+import { Pool, PoolConfig } from 'pg';
 
 export const poolConfig: PoolConfig = {
   user: 'postgres',
@@ -6,3 +6,5 @@ export const poolConfig: PoolConfig = {
   host: process.env.DatabaseHost,
   database: 'postgres',
 }
+
+export const pool = new Pool(poolConfig);

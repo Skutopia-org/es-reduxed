@@ -3,7 +3,7 @@ import { Pool, PoolConfig } from 'pg';
 
 export const EVENTS_VERSION = 1;
 
-export const createEventRepo = <T extends EventBase>(schema: string, poolConfig: PoolConfig): EventsRepo<T> => {
+export const createEventRepo = <T extends EventBase>(schema: string = 'public', poolConfig: PoolConfig): EventsRepo<T> => {
   const pool = new Pool(poolConfig);
   return {
     getEvents: async (cursor = 0, limit = 1000) => {

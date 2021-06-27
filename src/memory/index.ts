@@ -5,7 +5,8 @@ export const createEventRepo = <T extends EventBase>(): EventsRepo<T> => {
   return {
     getEvents: async (cursor = 0, limit = 1000) => events.slice(cursor, cursor + limit),
     saveEvent: async (event) => {
-      const maxId = Math.max(...events.map(e => e.id), 0);
+      // @ts-ignore
+      const maxId = Math.max(...events.map(e => e.id).filter(Boolean), 0);
       const newEvent = {...event, id: maxId + 1} as T;
       // Casting because TypeScript doesn't trust it still matches the discriminated union
       events.push(newEvent);

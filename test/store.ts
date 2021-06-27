@@ -1,8 +1,12 @@
 import { createStore, Reducer } from 'redux';
+import { EventBase } from '../lib';
+import { eventStoreReduxEnhancer } from '../src/enhancer';
 
-type State = {count: number};
+export type State = {
+  count: number
+};
 
-type CountAction = {
+export interface CountEvent extends EventBase {
   type: 'COUNTED';
 };
 
@@ -10,7 +14,7 @@ const initalState: State = {
   count: 0,
 };
 
-const countReducer: Reducer<State, CountAction> = (state = initalState, event) => {
+const countReducer: Reducer<State, CountEvent> = (state = initalState, event) => {
   switch (event.type) {
     case 'COUNTED':
       return {
@@ -21,4 +25,4 @@ const countReducer: Reducer<State, CountAction> = (state = initalState, event) =
   }
 }
 
-export const reduxStore = createStore(countReducer);
+export const reduxStore = createStore(countReducer, initalState, eventStoreReduxEnhancer);

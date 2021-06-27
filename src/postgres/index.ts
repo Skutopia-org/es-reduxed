@@ -5,7 +5,7 @@ import { EventBase, EventStoreProvider } from '../';
 import { PoolConfig } from 'pg';
 
 type Props = {
-  eventSchema: string;
+  eventSchema?: string;
   poolConfig: PoolConfig;
 }
 
@@ -13,7 +13,7 @@ export const createPostresEventStoreProvider = <T extends EventBase>({ eventSche
   const EVENT_CHANNEL_NAME = 'event_added';
   return {
     eventsRepo: createEventRepo<T>(eventSchema, poolConfig),
-    subscriber: async (reduxStore: Store) => {
+    subscriber: async (reduxStore: Store<any, any>) => {
       const subscriber = createSubscriber(poolConfig);
 
       subscriber.notifications.on(EVENT_CHANNEL_NAME, ({ event }) => {

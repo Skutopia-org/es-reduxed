@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { tinyFixtures } from 'tiny-fixtures';
 import { initialiseEventSourcingSystem } from '../src';
 import { createPostresEventStoreProvider } from '../src/postgres';
-import { poolConfig } from './db';
-import { reduxStore } from './store';
+import { pool, poolConfig } from './db';
+import { CountEvent, reduxStore } from './store';
 import { Pool } from 'pg';
 
 const { createFixtures } = tinyFixtures(new Pool(poolConfig));
@@ -22,15 +22,20 @@ describe('redux with psql provider', () => {
     await teardownFixtures();
   })
   it('does the docs', async () => {
-    const provider = createPostresEventStoreProvider({
+    const provider = createPostresEventStoreProvider<CountEvent>({
       eventSchema: 'core_domain',
       poolConfig,
     });
 
-    await initialiseEventSourcingSystem({
+    const { raiseEvent } = await initialiseEventSourcingSystem<ReturnType<(typeof reduxStore.getState)>, CountEvent>({
       reduxStore,
       eventStoreProvider: provider,
     });
-    expect(reduxStore.getState().count).to.equal(1);
+    const state = reduxStore.getState();
+    expect(state.count).to.equal(1);
+
+    const newState = await raiseEvent({ type: 'COUNTED', version: 1, payload: {}});
+    expect(newState.count).to.equal(2);
+    await pool.query(`DELETE FROM core_domain.event_store WHERE id = $1`, [newState.eventStoreMetadata.lastEventId]);
   });
 });
