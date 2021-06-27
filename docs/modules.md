@@ -7,12 +7,14 @@
 ### Type aliases
 
 - [EventBase](modules.md#eventbase)
+- [EventStoreBase](modules.md#eventstorebase)
 - [EventStoreProvider](modules.md#eventstoreprovider)
 - [EventStoreSubscriber](modules.md#eventstoresubscriber)
 - [EventsRepo](modules.md#eventsrepo)
 
 ### Functions
 
+- [eventStoreReduxEnhancer](modules.md#eventstorereduxenhancer)
 - [initialiseEventSourcingSystem](modules.md#initialiseeventsourcingsystem)
 
 ## Type aliases
@@ -25,12 +27,27 @@
 
 | Name | Type |
 | :------ | :------ |
-| `id` | *number* |
-| `payload` | *unknown* |
+| `id?` | *number* |
+| `payload?` | *unknown* |
 | `type` | *string* |
 | `version` | *number* |
 
-Defined in: index.ts:8
+Defined in: [index.ts:10](https://github.com/Antman261/es-reduxed/blob/71201fa/src/index.ts#L10)
+
+___
+
+### EventStoreBase
+
+Ƭ **EventStoreBase**: *object*
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `eventStoreMetadata` | *object* |
+| `eventStoreMetadata.lastEventId` | *number* |
+
+Defined in: [index.ts:17](https://github.com/Antman261/es-reduxed/blob/71201fa/src/index.ts#L17)
 
 ___
 
@@ -51,33 +68,34 @@ ___
 | `eventsRepo` | [*EventsRepo*](modules.md#eventsrepo)<T\> |
 | `subscriber` | [*EventStoreSubscriber*](modules.md#eventstoresubscriber) |
 
-Defined in: index.ts:22
+Defined in: [index.ts:30](https://github.com/Antman261/es-reduxed/blob/71201fa/src/index.ts#L30)
 
 ___
 
 ### EventStoreSubscriber
 
-Ƭ **EventStoreSubscriber**: <T\>(`args`: *any*) => *Promise*<void\>
+Ƭ **EventStoreSubscriber**: <S, E\>(`store`: *Store*<S, E\>) => *Promise*<void\>
 
 #### Type declaration
 
-▸ <T\>(`args`: *any*): *Promise*<void\>
+▸ <S, E\>(`store`: *Store*<S, E\>): *Promise*<void\>
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | [*EventBase*](modules.md#eventbase) |
+| `S` | - |
+| `E` | [*EventBase*](modules.md#eventbase) |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `args` | *any* |
+| `store` | *Store*<S, E\> |
 
 **Returns:** *Promise*<void\>
 
-Defined in: index.ts:20
+Defined in: [index.ts:28](https://github.com/Antman261/es-reduxed/blob/71201fa/src/index.ts#L28)
 
 ___
 
@@ -98,26 +116,43 @@ ___
 | `getEvents` | (`cursor?`: *number*, `limit?`: *number*) => *Promise*<T[]\> |
 | `saveEvent` | (`event`: *Omit*<T, ``"id"``\>) => *Promise*<AppendEventResult<T\>\> |
 
-Defined in: index.ts:15
+Defined in: [index.ts:23](https://github.com/Antman261/es-reduxed/blob/71201fa/src/index.ts#L23)
 
 ## Functions
 
-### initialiseEventSourcingSystem
+### eventStoreReduxEnhancer
 
-▸ `Const` **initialiseEventSourcingSystem**<T\>(`__namedParameters`: *Props*<T\>): *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `saveEvent`: (`event`: *Omit*<T, ``"id"``\>) => *Promise*<AppendEventResult<T\>\>  }\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | [*EventBase*](modules.md#eventbase) |
+▸ `Const` **eventStoreReduxEnhancer**(`next`: *StoreEnhancerStoreCreator*<{}, {}\>): *StoreEnhancerStoreCreator*<any, [*EventStoreBase*](modules.md#eventstorebase)\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | *Props*<T\> |
+| `next` | *StoreEnhancerStoreCreator*<{}, {}\> |
 
-**Returns:** *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `saveEvent`: (`event`: *Omit*<T, ``"id"``\>) => *Promise*<AppendEventResult<T\>\>  }\>
+**Returns:** *StoreEnhancerStoreCreator*<any, [*EventStoreBase*](modules.md#eventstorebase)\>
 
-Defined in: index.ts:34
+Defined in: [enhancer.ts:10](https://github.com/Antman261/es-reduxed/blob/71201fa/src/enhancer.ts#L10)
+
+___
+
+### initialiseEventSourcingSystem
+
+▸ `Const` **initialiseEventSourcingSystem**<S, E\>(`__namedParameters`: *Props*<S, E\>): *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `raiseEvent`: (`event`: *Omit*<E, ``"id"``\>) => *Promise*<S\>  }\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `S` | [*EventStoreBase*](modules.md#eventstorebase) |
+| `E` | [*EventBase*](modules.md#eventbase) |
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `__namedParameters` | *Props*<S, E\> |
+
+**Returns:** *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `raiseEvent`: (`event`: *Omit*<E, ``"id"``\>) => *Promise*<S\>  }\>
+
+Defined in: [initialisation.ts:56](https://github.com/Antman261/es-reduxed/blob/71201fa/src/initialisation.ts#L56)

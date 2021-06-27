@@ -1,7 +1,7 @@
 import { EventBase, EventStoreProvider } from '../';
 import { PoolConfig } from 'pg';
 declare type Props = {
-    eventSchema: string;
+    eventSchema?: string;
     poolConfig: PoolConfig;
 };
 export declare const createPostresEventStoreProvider: <T extends EventBase>({ eventSchema, poolConfig }: Props) => EventStoreProvider<T>;
