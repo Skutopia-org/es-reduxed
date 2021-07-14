@@ -7,7 +7,7 @@ Comes with a Postgres backed event store, with more event store providers coming
 
 ## Installation
 
-Run `npm i es-reduxed` to save to your dev dependencies.
+Run `npm i es-reduxed` to save to your dependencies.
 
 ### Installing the Postgres provider
 
