@@ -29,7 +29,7 @@ BEGIN
   PERFORM pg_notify(
     'event_added',
     json_build_object(
-      'event', row_to_json(NEW)
+      'event_id', NEW.id::text
     )::text
   );
 
