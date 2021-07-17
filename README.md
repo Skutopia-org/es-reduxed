@@ -145,6 +145,45 @@ export type BankEvents = MoneyDepositedEvent | AccountClosedEvent;
 
 Our bank events will now have well typed payloads and produce a compile-time error if I attempt to access `payload.value` on an `AccountClosedEvent`.
 
+## Setting up Redux-Devtools for serverside debugging
+
+Connect your serverside redux implementation using `remote-redux-devtools`.
+
+```typescript
+import { createStore } from 'redux';
+import { composeWithDevTools } from 'remote-redux-devtools';
+import { EventStoreBase, eventStoreReduxEnhancer } from 'es-reduxed';
+import {
+  reducer,
+  initialState,
+  State,
+  Events,
+} from './reducer';
+
+const composeEnhancers = composeWithDevTools({ realtime: true, port: 8000 });
+export const store = createStore<
+  State,
+  Events,
+  unknown,
+  EventStoreBase
+>(reducer, initialState, composeEnhancers(eventStoreReduxEnhancer));
+
+```
+
+You can then connect to it using the normal redux devtools extension as a remote instance:
+
+1. Click remote
+
+![](./docs/remote.png)
+
+2. Click settings
+
+![](./docs/remote-config.png)
+
+3. Select "Use custom (local) server"
+
+
+
 ## A word on Events vs Actions
 
 Events and actions are very similar, and the difference is mostly a matter of semantics, but in programming, _semantics matter_. Running a reducer over events or actions still produces the current state, however there are key differences:

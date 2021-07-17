@@ -76,5 +76,5 @@ describe('redux with psql provider', () => {
     await (() => new Promise((resolve) => setTimeout(resolve, 750)))();
     expect(reduxStore.getState().count).to.equal(state.count + 500);
   }).timeout(10000);
-  // TODO add test to ensure ordering, i.e. calculate fibonacci
+  // TODO add test to ensure ordering
 });
