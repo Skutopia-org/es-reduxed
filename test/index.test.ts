@@ -64,9 +64,9 @@ describe('redux with psql provider', () => {
     expect(newState.largeMessage).to.equal(largePayload);
   });
   it('processes a large number of concurrent events', async () => {
+    reduxStore.dispatch({ type: 'RESET' });
     const state = reduxStore.getState();
     const t0 = performance.now();
-    const d0 = new Date();
     // @ts-ignore
     await Promise.allSettled(
       Array.from({ length: 500 }).map(async () =>
@@ -77,10 +77,37 @@ describe('redux with psql provider', () => {
       )
     );
     const t1 = performance.now();
-    const d1 = new Date();
-    console.log(`processed 500 events in ${t1 - t0}ms.`);
-    console.log(`Processed 500 events in ${d1.getTime() - d0.getTime()}ms`);
+    console.log(
+      `Dispatched & processed 500 events sequentially in ${t1 - t0}ms.`
+    );
     expect(reduxStore.getState().count).to.equal(state.count + 500);
   }).timeout(10000);
-  // TODO add test to ensure ordering
+
+  it('can process 10,000 events in order', async () => {
+    reduxStore.dispatch({ type: 'RESET' });
+    const td0 = performance.now();
+    const bulkInsert = Array.from({ length: 10001 })
+      .map((_, index) => {
+        return index % 5001
+          ? `(1, 'COUNTED', NULL)`
+          : `(1, 'DIVIDE_BY', '${JSON.stringify(
+              (index + 1) % 10002 ? 10 : 2
+            )}')`;
+      })
+      .join(',')
+      .replace(/(^,)|(,$)/g, '');
+    await pool.query(
+      `INSERT INTO "core_domain"."event_store" ("version", "type", "payload") VALUES ${bulkInsert}`,
+      []
+    );
+    const td1 = performance.now();
+    await raiseEvent({
+      type: 'COUNTED',
+      version: 1,
+    });
+    const t1 = performance.now();
+    console.log(`Bulk dispatched 10,000 events in ${td1 - td0}ms.`);
+    console.log(`Processed 10,000 events in ${t1 - td1}ms.`);
+    expect(reduxStore.getState().count).to.equal(5500);
+  });
 });

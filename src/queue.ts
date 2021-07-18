@@ -66,6 +66,8 @@ const startQueue = <T extends EventBase>(
         dedupeSet.add(idCoerced);
         queue.push(idCoerced);
         processQueue();
+      } else {
+        console.warn(`Out of order event: [${idCoerced}]`);
       }
     },
     registerPromise: (id: number, resolve: PromiseResolver) => {

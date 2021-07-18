@@ -31,6 +31,12 @@ export const createPostresEventStoreProvider = <T extends EventBase>({
         process.exit(1);
       });
 
+      subscriber.events.on('reconnect', (attemptNumber) => {
+        console.warn(
+          `Reconnecting to [${EVENT_CHANNEL_NAME}] attempt [${attemptNumber}]`
+        );
+      });
+
       process.on('exit', () => {
         subscriber.close();
       });
