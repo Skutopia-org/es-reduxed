@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/Antman261/es-reduxed/compare/v0.3.1...v0.3.2) (2021-07-18)
+
+
+### Bug Fixes
+
+* **raiseevent:** fix a bug with raiseEvent wherein it could resolve early ([c8b13b4](https://github.com/Antman261/es-reduxed/commit/c8b13b449fda4de38e9253bf5b37c4167c1b0583))
+
 ### [0.3.1](https://github.com/Antman261/es-reduxed/compare/v0.3.0...v0.3.1) (2021-07-17)
 
 ## [0.3.0](https://github.com/Antman261/es-reduxed/compare/v0.2.0...v0.3.0) (2021-07-16)
