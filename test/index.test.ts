@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { performance } from 'perf_hooks';
 import { tinyFixtures } from 'tiny-fixtures';
 import { initialiseEventSourcingSystem } from '../src';
 import { createPostresEventStoreProvider } from '../src/postgres';
@@ -64,6 +65,7 @@ describe('redux with psql provider', () => {
   });
   it('processes a large number of concurrent events', async () => {
     const state = reduxStore.getState();
+    const t0 = performance.now();
     // @ts-ignore
     await Promise.allSettled(
       Array.from({ length: 500 }).map(async () =>
@@ -73,6 +75,8 @@ describe('redux with psql provider', () => {
         })
       )
     );
+    const t1 = performance.now();
+    console.log(`processed 500 events in ${t1 - t0}ms.`);
     expect(reduxStore.getState().count).to.equal(state.count + 500);
   }).timeout(10000);
   // TODO add test to ensure ordering

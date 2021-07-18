@@ -32,7 +32,7 @@
 | `type` | *string* |
 | `version` | *number* |
 
-Defined in: [index.ts:10](https://github.com/Antman261/es-reduxed/blob/3190a29/src/index.ts#L10)
+Defined in: [index.ts:10](https://github.com/Antman261/es-reduxed/blob/41b5901/src/index.ts#L10)
 
 ___
 
@@ -47,7 +47,7 @@ ___
 | `eventStoreMetadata` | *object* |
 | `eventStoreMetadata.lastEventId` | *number* |
 
-Defined in: [index.ts:17](https://github.com/Antman261/es-reduxed/blob/3190a29/src/index.ts#L17)
+Defined in: [index.ts:17](https://github.com/Antman261/es-reduxed/blob/41b5901/src/index.ts#L17)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 | `eventsRepo` | [*EventsRepo*](modules.md#eventsrepo)<T\> |
 | `subscriber` | [*EventStoreSubscriber*](modules.md#eventstoresubscriber) |
 
-Defined in: [index.ts:30](https://github.com/Antman261/es-reduxed/blob/3190a29/src/index.ts#L30)
+Defined in: [index.ts:33](https://github.com/Antman261/es-reduxed/blob/41b5901/src/index.ts#L33)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [index.ts:28](https://github.com/Antman261/es-reduxed/blob/3190a29/src/index.ts#L28)
+Defined in: [index.ts:29](https://github.com/Antman261/es-reduxed/blob/41b5901/src/index.ts#L29)
 
 ___
 
@@ -113,10 +113,11 @@ ___
 
 | Name | Type |
 | :------ | :------ |
+| `getEventRange` | (`fromId`: *number*, `toId`: *number*) => *Promise*<T[]\> |
 | `getEvents` | (`cursor?`: *number*, `limit?`: *number*) => *Promise*<T[]\> |
 | `saveEvent` | (`event`: *Omit*<T, ``"id"``\>) => *Promise*<AppendEventResult<T\>\> |
 
-Defined in: [index.ts:23](https://github.com/Antman261/es-reduxed/blob/3190a29/src/index.ts#L23)
+Defined in: [index.ts:23](https://github.com/Antman261/es-reduxed/blob/41b5901/src/index.ts#L23)
 
 ## Functions
 
@@ -132,7 +133,7 @@ Defined in: [index.ts:23](https://github.com/Antman261/es-reduxed/blob/3190a29/s
 
 **Returns:** *StoreEnhancerStoreCreator*<any, [*EventStoreBase*](modules.md#eventstorebase)\>
 
-Defined in: [enhancer.ts:10](https://github.com/Antman261/es-reduxed/blob/3190a29/src/enhancer.ts#L10)
+Defined in: [enhancer.ts:10](https://github.com/Antman261/es-reduxed/blob/41b5901/src/enhancer.ts#L10)
 
 ___
 
@@ -155,4 +156,4 @@ ___
 
 **Returns:** *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `raiseEvent`: (`event`: *Omit*<E, ``"id"``\>) => *Promise*<S\>  }\>
 
-Defined in: [initialisation.ts:56](https://github.com/Antman261/es-reduxed/blob/3190a29/src/initialisation.ts#L56)
+Defined in: [initialisation.ts:56](https://github.com/Antman261/es-reduxed/blob/41b5901/src/initialisation.ts#L56)

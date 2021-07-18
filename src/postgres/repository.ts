@@ -15,7 +15,8 @@ export const createEventRepo = <T extends EventBase>(
       const result = await pool.query<T>(
         `
     SELECT * FROM "${schema}"."event_store"
-    WHERE "id" >= $1 AND <= $2
+    WHERE "id" >= $1 AND "id" <= $2
+    ORDER BY "id"
     `,
         [fromId, toId]
       );

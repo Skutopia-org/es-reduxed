@@ -25,17 +25,17 @@ const startQueue = <T extends EventBase>(
       const eventId = queue.shift(); // So we only process if something was in the queue
       if (eventId) {
         state = 'PROCESSING';
-        // if (queue.length) {
-        //   // More than one event in queue, so do bulk processing
-        //   const lastEventIndex = queue.length - 1;
-        //   const lastEventId = queue[lastEventIndex];
-        //   const events = await eventsRepo.getEventRange(eventId, lastEventId);
-        //   events.forEach((row) => reduxStore.dispatch(row.id));
-        //   queue.splice(0, lastEventIndex);
-        // } else {
-        const [event] = await eventsRepo.getEvents(eventId - 1, 1);
-        reduxStore.dispatch(event);
-        // }
+        if (queue.length) {
+          // More than one event in queue, so do bulk processing
+          const lastEventIndex = queue.length - 1;
+          const lastEventId = queue[lastEventIndex];
+          const events = await eventsRepo.getEventRange(eventId, lastEventId);
+          events.forEach((row) => reduxStore.dispatch(row));
+          queue.splice(0, lastEventIndex + 1);
+        } else {
+          const [event] = await eventsRepo.getEvents(eventId - 1, 1);
+          reduxStore.dispatch(event);
+        }
         state = 'READY';
         processQueue();
       }
