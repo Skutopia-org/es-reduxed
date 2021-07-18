@@ -12,7 +12,8 @@
     "lib",
     "LICENSE",
     "README.md",
-    "package.json"
+    "package.json",
+    "db/000__event_store.sql"
   ],
   "scripts": {
     "test": "npx mocha",
