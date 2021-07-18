@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.6](https://github.com/Antman261/es-reduxed/compare/v0.3.5...v0.3.6) (2021-07-18)
+
+
+### Bug Fixes
+
+* **migration:** add missing migration file to package.json files ([fa0602b](https://github.com/Antman261/es-reduxed/commit/fa0602b9e00dcf58a4e9f15bdfb54332fe3cc344))
+
 ### [0.3.5](https://github.com/Antman261/es-reduxed/compare/v0.3.4...v0.3.5) (2021-07-18)
 
 ### [0.3.4](https://github.com/Antman261/es-reduxed/compare/v0.3.3...v0.3.4) (2021-07-18)
