@@ -6,7 +6,7 @@ import { pool, poolConfig } from './db';
 import { Events, reduxStore } from './store';
 import { Pool } from 'pg';
 import * as fs from 'fs';
-import { EventStoreProvider } from '../lib';
+import { EventStoreProvider } from '../src';
 
 const { createFixtures } = tinyFixtures(new Pool(poolConfig));
 
@@ -73,7 +73,6 @@ describe('redux with psql provider', () => {
         })
       )
     );
-    await (() => new Promise((resolve) => setTimeout(resolve, 750)))();
     expect(reduxStore.getState().count).to.equal(state.count + 500);
   }).timeout(10000);
   // TODO add test to ensure ordering

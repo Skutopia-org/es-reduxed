@@ -22,13 +22,22 @@ const startQueue = <T extends EventBase>(
   const processQueue = async () => {
     if (state === 'READY') {
       queue.sort((a, b) => a - b);
-      const eventId = queue.shift();
+      const eventId = queue.shift(); // So we only process if something was in the queue
       if (eventId) {
         state = 'PROCESSING';
+        // if (queue.length) {
+        //   // More than one event in queue, so do bulk processing
+        //   const lastEventIndex = queue.length - 1;
+        //   const lastEventId = queue[lastEventIndex];
+        //   const events = await eventsRepo.getEventRange(eventId, lastEventId);
+        //   events.forEach((row) => reduxStore.dispatch(row.id));
+        //   queue.splice(0, lastEventIndex);
+        // } else {
         const [event] = await eventsRepo.getEvents(eventId - 1, 1);
         reduxStore.dispatch(event);
+        // }
         state = 'READY';
-        await processQueue();
+        processQueue();
       }
     }
   };

@@ -182,7 +182,7 @@ You can then connect to it using the normal redux devtools extension as a remote
 
 3. Select "Use custom (local) server"
 
-
+![](./docs/es-reduxed-demo.mov)
 
 ## A word on Events vs Actions
 
