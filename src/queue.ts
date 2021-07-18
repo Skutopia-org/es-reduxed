@@ -1,9 +1,13 @@
 import { Store } from 'redux';
-import { EventBase, EventsRepo } from '../index';
+import { EventBase, EventsRepo } from './index';
 
 export type Queue = {
   enqueue: (id: number) => void;
+  registerPromise: (id: number, resolver: PromiseResolver) => void;
 };
+
+export type PromiseResolver = (value: Store<any, any>) => void;
+
 /**
  * This queue system uses a recursive loop and a primitive state machine to
  * ensure that events are dispatched to redux in exactly the order they were
@@ -17,7 +21,17 @@ const startQueue = <T extends EventBase>(
 ) => {
   const queue: number[] = [];
   const dedupeSet: Set<number> = new Set<number>();
+  const promiseMap: { [key: string]: PromiseResolver } = {};
   let state: 'READY' | 'PROCESSING' = 'READY';
+
+  const processEvent = (event: EventBase) => {
+    reduxStore.dispatch(event);
+    if (event.id === undefined) {
+      throw new Error(`Malformed event is missing id: ${event}`);
+    }
+    promiseMap[event.id](reduxStore.getState());
+    delete promiseMap[event.id];
+  };
 
   const processQueue = async () => {
     if (state === 'READY') {
@@ -30,11 +44,11 @@ const startQueue = <T extends EventBase>(
           const lastEventIndex = queue.length - 1;
           const lastEventId = queue[lastEventIndex];
           const events = await eventsRepo.getEventRange(eventId, lastEventId);
-          events.forEach((row) => reduxStore.dispatch(row));
+          events.forEach(processEvent);
           queue.splice(0, lastEventIndex + 1);
         } else {
           const [event] = await eventsRepo.getEvents(eventId - 1, 1);
-          reduxStore.dispatch(event);
+          processEvent(event);
         }
         state = 'READY';
         processQueue();
@@ -47,9 +61,12 @@ const startQueue = <T extends EventBase>(
       const idCoerced = typeof id === 'string' ? parseInt(id, 10) : id;
       if (!dedupeSet.has(idCoerced)) {
         dedupeSet.add(idCoerced);
-        typeof id === 'string' ? queue.push(parseInt(id, 10)) : queue.push(id);
+        queue.push(idCoerced);
         processQueue();
       }
+    },
+    registerPromise: (id: number, resolve: PromiseResolver) => {
+      promiseMap[id] = resolve;
     },
   };
 };

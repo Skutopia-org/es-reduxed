@@ -3,7 +3,7 @@ import { Store } from 'redux';
 import { createEventRepo } from './repository';
 import { EventBase, EventStoreProvider } from '../';
 import { PoolConfig } from 'pg';
-import { getQueue } from './queue';
+import { getQueue } from '../queue';
 
 type Props = {
   eventSchema?: string;
