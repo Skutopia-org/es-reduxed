@@ -73,6 +73,7 @@
   "keywords": [
     "redux",
     "eventsourcing",
+    "event-sourcing",
     "typescript",
     "backend",
     "back-end"

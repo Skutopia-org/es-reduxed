@@ -66,6 +66,7 @@ describe('redux with psql provider', () => {
   it('processes a large number of concurrent events', async () => {
     const state = reduxStore.getState();
     const t0 = performance.now();
+    const d0 = new Date();
     // @ts-ignore
     await Promise.allSettled(
       Array.from({ length: 500 }).map(async () =>
@@ -76,7 +77,9 @@ describe('redux with psql provider', () => {
       )
     );
     const t1 = performance.now();
+    const d1 = new Date();
     console.log(`processed 500 events in ${t1 - t0}ms.`);
+    console.log(`Processed 500 events in ${d1.getTime() - d0.getTime()}ms`);
     expect(reduxStore.getState().count).to.equal(state.count + 500);
   }).timeout(10000);
   // TODO add test to ensure ordering

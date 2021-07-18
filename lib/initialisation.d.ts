@@ -7,7 +7,7 @@ declare type Props<S extends EventStoreBase, E extends EventBase> = {
 /**
  *
  */
-export declare const initialiseEventSourcingSystem: <S extends EventStoreBase, E extends EventBase>({ reduxStore, eventStoreProvider }: Props<S, E>) => Promise<{
+export declare const initialiseEventSourcingSystem: <S extends EventStoreBase, E extends EventBase>({ reduxStore, eventStoreProvider, }: Props<S, E>) => Promise<{
     meta: {
         replayDuration: number;
     };
