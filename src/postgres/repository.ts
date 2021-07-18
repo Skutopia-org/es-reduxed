@@ -27,6 +27,7 @@ export const createEventRepo = <T extends EventBase>(
         `
     SELECT * FROM "${schema}"."event_store"
     WHERE "id" > $1
+    ORDER BY "id"
     LIMIT $2
     `,
         [cursor, limit]

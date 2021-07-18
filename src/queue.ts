@@ -20,8 +20,8 @@ const startQueue = <T extends EventBase>(
   eventsRepo: EventsRepo<T>
 ) => {
   const queue: number[] = [];
-  const dedupeSet: Set<number> = new Set<number>();
-  const promiseMap: { [key: string]: PromiseResolver } = {};
+  const dedupeSet = new Set<number>();
+  const promiseMap = new Map<number, PromiseResolver>();
   let state: 'READY' | 'PROCESSING' = 'READY';
 
   const processEvent = (event: EventBase) => {
@@ -29,8 +29,11 @@ const startQueue = <T extends EventBase>(
     if (event.id === undefined) {
       throw new Error(`Malformed event is missing id: ${event}`);
     }
-    promiseMap[event.id](reduxStore.getState());
-    delete promiseMap[event.id];
+    const resolver = promiseMap.get(event.id);
+    if (resolver) {
+      resolver(reduxStore.getState());
+      promiseMap.delete(event.id);
+    }
   };
 
   const processQueue = async () => {
@@ -41,7 +44,7 @@ const startQueue = <T extends EventBase>(
         state = 'PROCESSING';
         if (queue.length) {
           // More than one event in queue, so do bulk processing
-          const lastEventIndex = queue.length - 1;
+          const lastEventIndex = queue.length - 1; // Save queue length in-case it changes during the await
           const lastEventId = queue[lastEventIndex];
           const events = await eventsRepo.getEventRange(eventId, lastEventId);
           events.forEach(processEvent);
@@ -66,7 +69,7 @@ const startQueue = <T extends EventBase>(
       }
     },
     registerPromise: (id: number, resolve: PromiseResolver) => {
-      promiseMap[id] = resolve;
+      promiseMap.set(id, resolve);
     },
   };
 };
