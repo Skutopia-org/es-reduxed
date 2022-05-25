@@ -42,15 +42,20 @@ const startQueue = <T extends EventBase>(
       const eventId = queue.shift(); // So we only process if something was in the queue
       if (eventId) {
         state = 'PROCESSING';
+        const latestEventId =
+          reduxStore.getState().eventStoreMetadata.lastEventId;
         if (queue.length) {
           // More than one event in queue, so do bulk processing
           const lastEventIndex = queue.length - 1; // Save queue length in-case it changes during the await
           const lastEventId = queue[lastEventIndex];
-          const events = await eventsRepo.getEventRange(eventId, lastEventId);
+          const events = await eventsRepo.getEventRange(
+            latestEventId + 1,
+            lastEventId
+          );
           events.forEach(processEvent);
           queue.splice(0, lastEventIndex + 1);
         } else {
-          const [event] = await eventsRepo.getEvents(eventId - 1, 1);
+          const [event] = await eventsRepo.getEvents(latestEventId, 1);
           processEvent(event);
         }
         state = 'READY';
@@ -67,7 +72,7 @@ const startQueue = <T extends EventBase>(
         queue.push(idCoerced);
         processQueue();
       } else {
-        console.warn(`Out of order event: [${idCoerced}]`);
+        console.warn(`Already received event: [${idCoerced}]`);
       }
     },
     registerPromise: (id: number, resolve: PromiseResolver) => {

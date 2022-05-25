@@ -100,14 +100,82 @@ describe('redux with psql provider', () => {
       `INSERT INTO "core_domain"."event_store" ("version", "type", "payload") VALUES ${bulkInsert}`,
       []
     );
+
     const td1 = performance.now();
+    const startingMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+
     await raiseEvent({
       type: 'COUNTED',
       version: 1,
     });
+
     const t1 = performance.now();
+    const endMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+    const memUsed = endMemory - startingMemory;
+
     console.log(`Bulk dispatched 10,000 events in ${td1 - td0}ms.`);
     console.log(`Processed 10,000 events in ${t1 - td1}ms.`);
+    console.log(`Used ${memUsed} MB of memory`);
     expect(reduxStore.getState().count).to.equal(5500);
   });
+  it('consumes ~150 MB processing 100,000 events', async () => {
+    reduxStore.dispatch({ type: 'RESET' });
+    const bulkInsert = Array.from({ length: 100_000 })
+      .map((_, index) => `(1, 'COUNTED', NULL)`)
+      .join(',')
+      .replace(/(^,)|(,$)/g, '');
+    await pool.query(
+      `INSERT INTO "core_domain"."event_store" ("version", "type", "payload") VALUES ${bulkInsert}`,
+      []
+    );
+
+    const td1 = performance.now();
+    const startingMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+
+    await raiseEvent({
+      type: 'COUNTED',
+      version: 1,
+    });
+
+    const t1 = performance.now();
+    const endMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+    const memUsed = endMemory - startingMemory;
+
+    console.log(`Processed 1,000,000 events in ${t1 - td1}ms.`);
+    console.log('starting memory', startingMemory);
+    console.log('ending memory', endMemory);
+    console.log(`Used ${memUsed} MB of memory`);
+    expect(reduxStore.getState().count).to.equal(100_001);
+    expect(memUsed > 10 && memUsed < 200).to.be.true;
+  }).timeout(12000);
+  it.skip('consumes ~500 MB processing 1,000,000 events', async () => {
+    reduxStore.dispatch({ type: 'RESET' });
+    const bulkInsert = Array.from({ length: 1_000_000 })
+      .map((_, index) => `(1, 'COUNTED', NULL)`)
+      .join(',')
+      .replace(/(^,)|(,$)/g, '');
+    await pool.query(
+      `INSERT INTO "core_domain"."event_store" ("version", "type", "payload") VALUES ${bulkInsert}`,
+      []
+    );
+
+    const td1 = performance.now();
+    const startingMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+
+    await raiseEvent({
+      type: 'COUNTED',
+      version: 1,
+    });
+
+    const t1 = performance.now();
+    const endMemory = process.memoryUsage().heapUsed / 1024 / 1024;
+    const memUsed = endMemory - startingMemory;
+
+    console.log(`Processed 1,000,000 events in ${t1 - td1}ms.`);
+    console.log('starting memory', startingMemory);
+    console.log('ending memory', endMemory);
+    console.log(`Used ${memUsed} MB of memory`);
+    expect(reduxStore.getState().count).to.equal(1_000_001);
+    expect(memUsed > 200 && memUsed < 600).to.be.true;
+  }).timeout(120000);
 });
