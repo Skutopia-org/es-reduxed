@@ -8,6 +8,19 @@ export type Queue = {
 
 export type PromiseResolver = (value: Store<any, any>) => void;
 
+const reduceSetSize = (set_: Set<number>) => {
+  // underscore suffix indicates set is provided mutatively
+  const reduceBy = set_.size - 10_000;
+  let count = 0;
+  for (const entry of set_.values()) {
+    if (count > reduceBy) {
+      break;
+    }
+    set_.delete(entry);
+    count++;
+  }
+};
+
 /**
  * This queue system uses a recursive loop and a primitive state machine to
  * ensure that events are dispatched to redux in exactly the order they were
@@ -21,18 +34,29 @@ const startQueue = <T extends EventBase>(
 ) => {
   const queue: number[] = [];
   const dedupeSet = new Set<number>();
+  const processedSet = new Set<number>();
   const promiseMap = new Map<number, PromiseResolver>();
   let state: 'READY' | 'PROCESSING' = 'READY';
 
   const processEvent = (event: EventBase) => {
-    reduxStore.dispatch(event);
     if (event.id === undefined) {
       throw new Error(`Malformed event is missing id: ${event}`);
     }
+    if (processedSet.has(event.id)) {
+      return;
+    }
+    reduxStore.dispatch(event);
     const resolver = promiseMap.get(event.id);
+    processedSet.add(event.id);
     if (resolver) {
       resolver(reduxStore.getState());
-      promiseMap.delete(event.id);
+    }
+
+    // Cleanup
+    promiseMap.delete(event.id);
+    if (event.id % 100_000 === 0) {
+      reduceSetSize(processedSet);
+      reduceSetSize(dedupeSet);
     }
   };
 
