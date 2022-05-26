@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { performance } from 'perf_hooks';
 import { tinyFixtures } from 'tiny-fixtures';
 import { initialiseEventSourcingSystem } from '../src';
-import { createPostresEventStoreProvider } from '../src/postgres';
+import { createPostgresEventStoreProvider } from '../src/postgres';
 import { pool, poolConfig } from './db';
 import { Events, reduxStore } from './store';
 import { Pool } from 'pg';
@@ -25,7 +25,7 @@ describe('redux with psql provider', () => {
       },
     ]);
     await setupFixtures();
-    provider = createPostresEventStoreProvider<Events>({
+    provider = createPostgresEventStoreProvider<Events>({
       eventSchema: 'core_domain',
       poolConfig,
     });

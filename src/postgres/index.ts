@@ -10,7 +10,7 @@ type Props = {
   poolConfig: PoolConfig;
 };
 
-export const createPostresEventStoreProvider = <T extends EventBase>({
+export const createPostgresEventStoreProvider = <T extends EventBase>({
   eventSchema,
   poolConfig,
 }: Props): EventStoreProvider<T> => {
