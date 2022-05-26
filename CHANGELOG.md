@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.8](https://github.com/Antman261/es-reduxed/compare/v0.3.7...v0.3.8) (2022-05-26)
+
+
+### Bug Fixes
+
+* **pg-provider:** fix a typo in the event store provider ([88c2cfc](https://github.com/Antman261/es-reduxed/commit/88c2cfc1f4560340ce601aa03a0643cb0ba416d2))
+
 ### [0.3.7](https://github.com/Antman261/es-reduxed/compare/v0.3.6...v0.3.7) (2022-05-25)
 
 
