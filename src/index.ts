@@ -23,7 +23,7 @@ export type EventStoreBase = {
 export type EventsRepo<T extends EventBase> = {
   getEventRange: (fromId: number, toId: number) => Promise<T[]>;
   getEvents: (cursor?: number, limit?: number) => Promise<T[]>;
-  saveEvent: (event: Omit<T, 'id'>) => Promise<AppendEventResult<T>>;
+  saveEvent: (event: Omit<T, 'id' | 'created_at'>) => Promise<AppendEventResult<T>>;
 };
 
 export type EventStoreSubscriber = <S, E extends EventBase>(

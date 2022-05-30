@@ -11,7 +11,7 @@ export declare const initialiseEventSourcingSystem: <S extends EventStoreBase, E
     meta: {
         replayDuration: number;
     };
-    raiseEvent: (event: Omit<E, "id">) => Promise<S>;
+    raiseEvent: (event: Omit<E, "id" | "created_at">) => Promise<S>;
 }>;
 export {};
 //# sourceMappingURL=initialisation.d.ts.map

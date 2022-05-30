@@ -12,7 +12,7 @@ const withReduxStore = <S extends EventStoreBase, E extends EventBase>(
   reduxStore: Store<S, E>
 ) => {
   const queue = getQueue(reduxStore, eventsRepo);
-  return async (event: Omit<E, 'id'>): Promise<S> => {
+  return async (event: Omit<E, 'id' | 'created_at'>): Promise<S> => {
     const eventResult = await eventsRepo.saveEvent(event);
     return new Promise((resolve) => {
       /*
