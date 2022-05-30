@@ -32,7 +32,7 @@
 | `type` | *string* |
 | `version` | *number* |
 
-Defined in: [index.ts:10](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/index.ts#L10)
+Defined in: [index.ts:10](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/index.ts#L10)
 
 ___
 
@@ -47,7 +47,7 @@ ___
 | `eventStoreMetadata` | *object* |
 | `eventStoreMetadata.lastEventId` | *number* |
 
-Defined in: [index.ts:17](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/index.ts#L17)
+Defined in: [index.ts:17](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/index.ts#L17)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 | `eventsRepo` | [*EventsRepo*](modules.md#eventsrepo)<T\> |
 | `subscriber` | [*EventStoreSubscriber*](modules.md#eventstoresubscriber) |
 
-Defined in: [index.ts:33](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/index.ts#L33)
+Defined in: [index.ts:33](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/index.ts#L33)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 **Returns:** *Promise*<void\>
 
-Defined in: [index.ts:29](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/index.ts#L29)
+Defined in: [index.ts:29](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/index.ts#L29)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 | `getEvents` | (`cursor?`: *number*, `limit?`: *number*) => *Promise*<T[]\> |
 | `saveEvent` | (`event`: *Omit*<T, ``"id"`` \| ``"created_at"``\>) => *Promise*<AppendEventResult<T\>\> |
 
-Defined in: [index.ts:23](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/index.ts#L23)
+Defined in: [index.ts:23](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/index.ts#L23)
 
 ## Functions
 
@@ -133,7 +133,7 @@ Defined in: [index.ts:23](https://github.com/chrisdavis-workit/es-reduxed/blob/1
 
 **Returns:** *StoreEnhancerStoreCreator*<any, [*EventStoreBase*](modules.md#eventstorebase)\>
 
-Defined in: [enhancer.ts:10](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/enhancer.ts#L10)
+Defined in: [enhancer.ts:10](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/enhancer.ts#L10)
 
 ___
 
@@ -156,4 +156,4 @@ ___
 
 **Returns:** *Promise*<{ `meta`: { `replayDuration`: *number*  } ; `raiseEvent`: (`event`: *Omit*<E, ``"id"`` \| ``"created_at"``\>) => *Promise*<S\>  }\>
 
-Defined in: [initialisation.ts:65](https://github.com/chrisdavis-workit/es-reduxed/blob/17d9452/src/initialisation.ts#L65)
+Defined in: [initialisation.ts:65](https://github.com/Skutopia-org/es-reduxed/blob/17d9452/src/initialisation.ts#L65)
