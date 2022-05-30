@@ -1,6 +1,6 @@
 {
   "name": "es-reduxed",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "description": "Server side event sourcing powered by Redux",
   "repository": {
     "type": "git",

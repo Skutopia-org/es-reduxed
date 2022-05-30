@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.8](https://github.com/Antman261/es-reduxed/compare/v0.3.7...v0.3.8) (2022-05-26)
+
+
+### Bug Fixes
+
+* **pg-provider:** fix a typo in the event store provider ([88c2cfc](https://github.com/Antman261/es-reduxed/commit/88c2cfc1f4560340ce601aa03a0643cb0ba416d2))
+
+### [0.3.7](https://github.com/Antman261/es-reduxed/compare/v0.3.6...v0.3.7) (2022-05-25)
+
+
+### Bug Fixes
+
+* **enhancer:** exclude internal events from id check ([a584338](https://github.com/Antman261/es-reduxed/commit/a5843386f4106fe59ea96e1776a39c52c8125a28))
+* **queue:** use redux event id to prevent out of order processing ([791124d](https://github.com/Antman261/es-reduxed/commit/791124d16fca16f25b019c268cf166c154a63c9b))
+
 ### [0.3.6](https://github.com/Antman261/es-reduxed/compare/v0.3.5...v0.3.6) (2021-07-18)
 
 
